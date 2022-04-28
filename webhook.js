@@ -37,7 +37,7 @@ let server = http.createServer(function (req, res) {
           buffers.push(buffer);
         });
         child.stdout.on("end", function (buffer) {
-          let log = Buffer.concat(buffers).toString();
+          let logs = Buffer.concat(buffers).toString();
           sendMail(`
           <h1>部署日期: ${new Date()}</h1>
           <h2>部署人: ${payload.pusher.name}</h2>
