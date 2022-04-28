@@ -4,6 +4,8 @@ let crypto = require("crypto");
 
 let { spawn } = require("child_process");
 
+let sendMail = require("./sendMail");
+
 let SECRET = "123456";
 
 function sign(body) {
@@ -35,8 +37,14 @@ let server = http.createServer(function (req, res) {
           buffers.push(buffer);
         });
         child.stdout.on("end", function (buffer) {
-          let log = Buffer.concat(buffers);
-          console.log(log);
+          let log = Buffer.concat(buffers).toString();
+          sendMail(`
+          <h1>部署日期: ${new Date()}</h1>
+          <h2>部署人: ${payload.pusher.name}</h2>
+          <h2>部署邮箱: ${payload.pusher.email}</h2>
+          <h2>提交信息: ${payload.head_commit && payload.head_commit | "message"}</h2>
+          <h2>部署日志: ${logs.replace("\r\n", "<br/>")}</h2>
+          `);
         });
       }
     });
