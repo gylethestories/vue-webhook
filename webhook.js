@@ -30,7 +30,7 @@ let server = http.createServer(function (req, res) {
       if (event == "push") {
         //开始部署
         let payload = JSON.parse(body);
-        spawn("sh", [`./${payload.repository.name}.sh`]);
+        let child = spawn("sh", [`./${payload.repository.name}.sh`]);
         child.stdout.on("data", function (buffer) {
           buffers.push(buffer);
         });
