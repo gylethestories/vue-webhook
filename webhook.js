@@ -35,7 +35,7 @@ let server = http.createServer(function (req, res) {
           buffers.push(buffer);
         });
         child.stdout.on("end", function (buffer) {
-          let log = Buffer.contact(buffers);
+          let log = Buffer.concat(buffers);
           console.log(log);
         });
       }
