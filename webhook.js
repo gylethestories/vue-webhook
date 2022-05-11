@@ -36,16 +36,17 @@ let server = http.createServer(function (req, res) {
         child.stdout.on("data", function (buffer) {
           buffers.push(buffer);
         });
-        // child.stdout.on("end", function (buffer) {
-        //   let logs = Buffer.concat(buffers).toString();
-        //   sendMail(`
-        //   <h1>部署日期: ${new Date()}</h1>
-        //   <h2>部署人: ${payload.pusher.name}</h2>
-        //   <h2>部署邮箱: ${payload.pusher.email}</h2>
-        //   <h2>提交信息: ${payload.head_commit && payload.head_commit | "message"}</h2>
-        //   <h2>部署日志: ${logs.replace("\r\n", "<br/>")}</h2>
-        //   `);
-        // });
+        child.stdout.on("end", function (buffer) {
+          let logs = Buffer.concat(buffers).toString();
+          console.log(logs);
+          // sendMail(`
+          // <h1>部署日期: ${new Date()}</h1>
+          // <h2>部署人: ${payload.pusher.name}</h2>
+          // <h2>部署邮箱: ${payload.pusher.email}</h2>
+          // <h2>提交信息: ${payload.head_commit && payload.head_commit | "message"}</h2>
+          // <h2>部署日志: ${logs.replace("\r\n", "<br/>")}</h2>
+          // `);
+        });
       }
     });
   } else {
